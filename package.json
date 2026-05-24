@@ -4,6 +4,9 @@
   "description": "Aurral show source plugin for First Avenue Productions venues (Minneapolis / Saint Paul)",
   "type": "module",
   "main": "index.js",
+  "scripts": {
+    "build": "esbuild index.js --bundle --platform=node --format=esm --banner:js=\"import { createRequire } from 'module'; const require = createRequire(import.meta.url);\" --outfile=dist/first-avenue.js"
+  },
   "keywords": ["aurral", "aurral-plugin", "first-avenue", "minneapolis", "concerts"],
   "license": "MIT",
   "engines": {
@@ -12,5 +15,8 @@
   "dependencies": {
     "axios": "^1.6.0",
     "node-cache": "^5.1.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
   }
 }

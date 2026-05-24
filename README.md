@@ -66,7 +66,8 @@ Because the plugin uses ES module imports across multiple source files, you'll n
 
 ```bash
 cd aurral-plugin-first-avenue
-npx esbuild index.js --bundle --platform=node --format=esm --outfile=dist/first-avenue.js
+npm install
+npm run build
 cp dist/first-avenue.js /path/to/aurral/plugins/first-avenue.js
 ```
 
