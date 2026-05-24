@@ -22,18 +22,13 @@ export const fetchEvents = async () => {
   const cached = eventListCache.get(cacheKey);
   if (cached) return cached;
 
-  // Filter to events published in the last 6 months. Most shows are announced
-  // 2–4 months out; this window captures the vast majority while avoiding a
-  // full crawl of years of historical posts.
+  // Fetch events published in the last 12 months to catch shows announced far
+  // in advance. Filter client-side to upcoming only (no past shows).
   const after = new Date();
-  after.setMonth(after.getMonth() - 6);
+  after.setFullYear(after.getFullYear() - 1);
   const afterIso = after.toISOString().split(".")[0] + "Z";
 
-  const now = new Date();
-  const cutoff = new Date(now);
-  cutoff.setDate(cutoff.getDate() + 90);
-  const todayStr = now.toISOString().slice(0, 10);
-  const cutoffStr = cutoff.toISOString().slice(0, 10);
+  const todayStr = new Date().toISOString().slice(0, 10);
 
   const allRaw = [];
   for (let page = 1; page <= 5; page++) {
@@ -71,7 +66,7 @@ export const fetchEvents = async () => {
       const slugMatch = String(raw.slug || "").match(/^(\d{4})-(\d{2})-/);
       if (slugMatch) date = `${slugMatch[1]}-${slugMatch[2]}-01`;
     }
-    if (!date || date < todayStr || date > cutoffStr) continue;
+    if (!date || date < todayStr) continue;
 
     const cleanTitle = stripDateFromTitle(rawTitle);
     const artistNames = parseArtistNames(cleanTitle);
