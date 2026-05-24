@@ -21,6 +21,9 @@ const VENUE_HREF_RE =
 const SHOW_TIME_RE =
   /<h6[^>]*>\s*Show Starts\s*<\/h6>\s*<p[^>]*>([^<]+)<\/p>/i;
 
+const OG_IMAGE_RE =
+  /<meta[^>]+property="og:image"[^>]+content="([^"]+)"|<meta[^>]+content="([^"]+)"[^>]+property="og:image"/i;
+
 export const enrichEvent = async (event) => {
   const cacheKey = event.url || event.id;
   const cached = detailCache.get(cacheKey);
@@ -44,6 +47,8 @@ export const enrichEvent = async (event) => {
     const venueSlug = html.match(VENUE_HREF_RE)?.[1] ?? null;
     const venueInfo = venueSlug ? VENUE_MAP[venueSlug] : null;
     const showTime = html.match(SHOW_TIME_RE)?.[1]?.trim() ?? null;
+    const ogImageMatch = html.match(OG_IMAGE_RE);
+    const image = ogImageMatch?.[1] ?? ogImageMatch?.[2] ?? null;
 
     const enriched = {
       ...event,
@@ -52,6 +57,7 @@ export const enrichEvent = async (event) => {
       region: venueInfo?.region ?? null,
       countryCode: venueInfo?.countryCode ?? "US",
       time: showTime,
+      image,
     };
     detailCache.set(cacheKey, enriched);
     return enriched;
