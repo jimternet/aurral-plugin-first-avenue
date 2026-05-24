@@ -24,6 +24,10 @@ const SHOW_TIME_RE =
 const OG_IMAGE_RE =
   /<meta[^>]+property="og:image"[^>]+content="([^"]+)"|<meta[^>]+content="([^"]+)"[^>]+property="og:image"/i;
 
+// Fallback: first uploaded image in the page body
+const WP_IMAGE_RE =
+  /(https:\/\/first-avenue\.com\/wp-content\/uploads\/[^\s"'<>]+\.(?:jpe?g|png|webp))/i;
+
 export const enrichEvent = async (event) => {
   const cacheKey = event.url || event.id;
   const cached = detailCache.get(cacheKey);
@@ -48,7 +52,7 @@ export const enrichEvent = async (event) => {
     const venueInfo = venueSlug ? VENUE_MAP[venueSlug] : null;
     const showTime = html.match(SHOW_TIME_RE)?.[1]?.trim() ?? null;
     const ogImageMatch = html.match(OG_IMAGE_RE);
-    const image = ogImageMatch?.[1] ?? ogImageMatch?.[2] ?? null;
+    const image = ogImageMatch?.[1] ?? ogImageMatch?.[2] ?? html.match(WP_IMAGE_RE)?.[1] ?? null;
 
     const enriched = {
       ...event,
