@@ -1,0 +1,16 @@
+{
+  "name": "aurral-plugin-first-avenue",
+  "version": "0.1.0",
+  "description": "Aurral show source plugin for First Avenue Productions venues (Minneapolis / Saint Paul)",
+  "type": "module",
+  "main": "index.js",
+  "keywords": ["aurral", "aurral-plugin", "first-avenue", "minneapolis", "concerts"],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "node-cache": "^5.1.2"
+  }
+}
