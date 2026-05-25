@@ -278,6 +278,10 @@ import { enrichEvent } from "./src/enrichEvent.js";
 export default {
   id: "your-venue",           // must be unique across all loaded plugins
   name: "Your Venue Name",    // shown in Aurral's logs
+  imageDomains: [             // optional — added to Aurral's CSP img-src at startup
+    "https://your-venue.com",
+    "https://*.your-venue.com",
+  ],
 
   isRelevantForLocation(location) {
     return isNearVenue(location);

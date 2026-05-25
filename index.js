@@ -37,6 +37,7 @@ import { enrichEvent } from "./src/enrichEvent.js";
 const plugin = {
   id: "first-avenue",
   name: "First Avenue Productions",
+  imageDomains: ["https://first-avenue.com", "https://*.first-avenue.com"],
 
   isRelevantForLocation(location) {
     return isNearMinneapolis(location);
